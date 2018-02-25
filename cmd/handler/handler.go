@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/codeclimate/hestia/internal/commands"
+	"github.com/codeclimate/hestia/internal/types"
 	"github.com/nlopes/slack"
 	"log"
 	"regexp"
@@ -14,80 +15,40 @@ type Response struct {
 	Ok      bool   `json:"ok"`
 }
 
-type Event struct {
-	Type           string `json:"type"`
-	User           string `json:"user"`
-	Text           string `json:"text"`
-	Timestamp      string `json:"ts"`
-	Channel        string `json:"channel"`
-	EventTimestamp string `json:"event_ts"`
+func main() {
+	lambda.Start(handleRequest)
 }
 
-type EventCallback struct {
-	Token       string   `json:"type"`
-	Challenge   string   `json:"challenge"`
-	TeamId      string   `json:"team_id"`
-	ApiAppId    string   `json:"api_app_id"`
-	Event       Event    `json:"event"`
-	Type        string   `json:"type"`
-	EventId     string   `json:"event_id"`
-	EventTime   int      `json:"event_time"`
-	AuthedUsers []string `json:"authed_users"`
-}
-
-// {
-//     "token": "FeCDfP96MxGb3JA2TTmXVhmc",
-//     "team_id": "T0G0RAKPG",
-//     "api_app_id": "A9FDQB5V5",
-//     "event": {
-//         "type": "app_mention",
-//         "user": "U0G0RMBC0",
-//         "text": "<@U9EC5EG3U> sup?",
-//         "ts": "1519519253.000080",
-//         "channel": "C0G0KFXS8",
-//         "event_ts": "1519519253000080"
-//     },
-//     "type": "event_callback",
-//     "event_id": "Ev9E9CLT99",
-//     "event_time": 1519519253000080,
-//     "authed_users": [
-//         "U9EC5EG3U"
-//     ]
-// }
-
-func handleRequest(ctx context.Context, eventCallback EventCallback) (Response, error) {
+func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
 	event := eventCallback.Event
+	input := extractInput(event.Text)
 
+	log.Printf("command = %s.\n", input.Command)
+	log.Printf("args = %s.\n", input.Args)
+
+	client := slack.New("xoxb-320413492130-GgNGrajOmQeyCdQZrbzflqfa")
+
+	command := commands.Build(event, input, client)
+	command.Run()
+
+	return Response{Message: "Processed message", Ok: true}, nil
+}
+
+func extractInput(text string) types.Input {
 	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)
-	match := re.FindStringSubmatch(event.Text)
+	match := re.FindStringSubmatch(text)
+	captures := extractCaptures(re, match)
 
-	capturesMap := make(map[string]string)
+	return types.Input{Command: captures["command"], Args: captures["args"]}
+}
+
+func extractCaptures(re *regexp.Regexp, match []string) map[string]string {
+	captures := make(map[string]string)
 	for i, name := range re.SubexpNames() {
 		if i > 0 && i <= len(match) {
-			capturesMap[name] = match[i]
+			captures[name] = match[i]
 		}
 	}
 
-	command := capturesMap["command"]
-	args := capturesMap["args"]
-
-	log.Printf("command = %s.\n", command)
-	log.Printf("args = %s.\n", args)
-
-	client := slack.New("abc123")
-
-	switch command {
-	case "whoami":
-		commands.WhoAmI(event.User, event.Channel, client)
-	case "echo":
-		commands.Echo(event.User, event.Channel, args, client)
-	default:
-		commands.Default(event.User, event.Channel, command, client)
-	}
-
-	return Response{Message: "processed message", Ok: true}, nil
-}
-
-func main() {
-	lambda.Start(handleRequest)
+	return captures
 }
