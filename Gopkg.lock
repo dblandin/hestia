@@ -42,6 +42,7 @@
     "private/protocol/restjson",
     "private/protocol/xml/xmlutil",
     "service/lambda",
+    "service/ssm",
     "service/sts"
   ]
   revision = "f7f1ee9550cc76ceea731d99c8dbe00a0c39f66d"
@@ -70,9 +71,15 @@
   revision = "8ab4d0b364ef1e9af5d102531da20d5ec902b6c4"
   version = "v0.2.0"
 
+[[projects]]
+  branch = "master"
+  name = "github.com/shkh/lastfm-go"
+  packages = ["lastfm"]
+  revision = "125b747251b36e1e4a2f20391d674ff98a09a239"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ecdb503e2fc9a08c1eb2b11acddee48739cbe1c530b772abb08c69ca27063258"
+  inputs-digest = "59ce3252846681a42c028cf4ec06c1745e3b3553ba3cebb9714447050d135817"
   solver-name = "gps-cdcl"
   solver-version = 1
