@@ -17,6 +17,8 @@ func Build(event types.Event, input types.Input, client *slack.Client) Command {
 		command = WhoAmI{event, input, client}
 	case "echo":
 		command = Echo{event, input, client}
+	case "nowplaying":
+		command = NowPlaying{event, input, client}
 	default:
 		command = Fallback{event, input, client}
 	}
