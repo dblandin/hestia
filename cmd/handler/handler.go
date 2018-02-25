@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/codeclimate/hestia/internal/commands"
+	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
 	"github.com/nlopes/slack"
 	"log"
@@ -26,7 +27,7 @@ func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Resp
 	log.Printf("command = %s.\n", input.Command)
 	log.Printf("args = %s.\n", input.Args)
 
-	client := slack.New("xoxb-320413492130-GgNGrajOmQeyCdQZrbzflqfa")
+	client := slack.New(secrets.GetSecretValue("slack_bot_token"))
 
 	command := commands.Build(event, input, client)
 	command.Run()

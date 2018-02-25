@@ -59,6 +59,15 @@ resource "aws_iam_policy" "hestia" {
         "lambda:InvokeFunction"
       ],
       "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "ssm:GetParameters",
+            "ssm:GetParameter",
+            "ssm:DescribeParameters"
+        ],
+        "Resource": "*"
     }
   ]
 }
