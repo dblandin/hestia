@@ -6,6 +6,7 @@ import (
 	"github.com/codeclimate/hestia/internal/commands"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
+	"github.com/codeclimate/hestia/internal/utils"
 	"log"
 	"regexp"
 )
@@ -21,7 +22,9 @@ func main() {
 
 func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
 	event := eventCallback.Event
-	input := extractInput(event.Text)
+
+	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)
+	input := utils.ExtractInput(event.Text, re)
 
 	log.Printf("command = %s.\n", input.Command)
 	log.Printf("args = %s.\n", input.Args)
@@ -32,23 +35,4 @@ func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Resp
 	command.Run()
 
 	return Response{Message: "Processed message", Ok: true}, nil
-}
-
-func extractInput(text string) types.Input {
-	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)
-	match := re.FindStringSubmatch(text)
-	captures := extractCaptures(re, match)
-
-	return types.Input{Command: captures["command"], Args: captures["args"]}
-}
-
-func extractCaptures(re *regexp.Regexp, match []string) map[string]string {
-	captures := make(map[string]string)
-	for i, name := range re.SubexpNames() {
-		if i > 0 && i <= len(match) {
-			captures[name] = match[i]
-		}
-	}
-
-	return captures
 }
