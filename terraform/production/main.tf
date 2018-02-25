@@ -63,9 +63,9 @@ resource "aws_iam_policy" "hestia" {
     {
         "Effect": "Allow",
         "Action": [
-            "ssm:GetParameters",
+            "ssm:DescribeParameters",
             "ssm:GetParameter",
-            "ssm:DescribeParameters"
+            "ssm:GetParameters"
         ],
         "Resource": "*"
     }
