@@ -1,41 +1,32 @@
 package main
 
 import (
-	"context"
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/codeclimate/hestia/internal/commands"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
 	"log"
+	"os"
+	"os/user"
 	"regexp"
+	"strings"
 )
 
-type Response struct {
-	Message string `json:"message"`
-	Ok      bool   `json:"ok"`
-}
-
 func main() {
-	lambda.Start(handleRequest)
-}
+	input := extractInput(strings.Join(os.Args[1:], " "))
 
-func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
-	event := eventCallback.Event
-	input := extractInput(event.Text)
+	log.Printf("command = %s\n", input.Command)
+	log.Printf("args = %s\n", input.Args)
 
-	log.Printf("command = %s.\n", input.Command)
-	log.Printf("args = %s.\n", input.Args)
+	notifier := notifiers.Stdout{}
 
-	notifier := notifiers.Slack{Channel: event.Channel}
+	user, _ := user.Current()
 
-	command := commands.Build(event.User, input, notifier)
+	command := commands.Build(user.Username, input, notifier)
 	command.Run()
-
-	return Response{Message: "Processed message", Ok: true}, nil
 }
 
 func extractInput(text string) types.Input {
-	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)
+	re := regexp.MustCompile(`(?P<command>\w+)\s?(?P<args>.*)?`)
 	match := re.FindStringSubmatch(text)
 	captures := extractCaptures(re, match)
 

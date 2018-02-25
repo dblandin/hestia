@@ -1,28 +1,28 @@
 package commands
 
 import (
+	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
-	"github.com/nlopes/slack"
 )
 
 type Command interface {
 	Run()
 }
 
-func Build(event types.Event, input types.Input, client *slack.Client) Command {
+func Build(user string, input types.Input, notifier notifiers.Notifier) Command {
 	var command Command
 
 	switch input.Command {
 	case "whoami":
-		command = WhoAmI{event, input, client}
+		command = WhoAmI{user, input, notifier}
 	case "echo":
-		command = Echo{event, input, client}
+		command = Echo{user, input, notifier}
 	case "nowplaying":
-		command = NowPlaying{event, input, client}
+		command = NowPlaying{user, input, notifier}
 	case "weather":
-		command = Weather{event, input, client}
+		command = Weather{user, input, notifier}
 	default:
-		command = Fallback{event, input, client}
+		command = Fallback{user, input, notifier}
 	}
 
 	return command

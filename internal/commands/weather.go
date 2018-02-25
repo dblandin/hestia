@@ -3,18 +3,18 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
-	"github.com/nlopes/slack"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
 type Weather struct {
-	Event  types.Event
-	Input  types.Input
-	Client *slack.Client
+	User     string
+	Input    types.Input
+	Notifier notifiers.Notifier
 }
 
 type Forecast struct {
@@ -57,8 +57,8 @@ func getWeather(zip string) (weather OpenWeatherMapResponse) {
 	return weather
 }
 
-func (command Weather) Run() {
-	zip := command.Input.Args
+func (c Weather) Run() {
+	zip := c.Input.Args
 
 	if len(zip) == 0 {
 		zip = "10011"
@@ -72,8 +72,7 @@ func (command Weather) Run() {
 		Description: weather.Weather[0].Description,
 	}
 
-	message := fmt.Sprintf("It's %s for %s", forecast.Description, zip)
+	message := fmt.Sprintf("%s in %s (%s)", forecast.Description, forecast.City, forecast.Zip)
 
-	postParams := slack.PostMessageParameters{}
-	_, _, _ = command.Client.PostMessage(command.Event.Channel, message, postParams)
+	c.Notifier.Log(message)
 }

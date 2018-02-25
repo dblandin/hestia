@@ -2,31 +2,35 @@ package commands
 
 import (
 	"fmt"
+	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
-	"github.com/nlopes/slack"
 	"github.com/shkh/lastfm-go/lastfm"
 	"log"
 	"strings"
 )
 
 type NowPlaying struct {
-	Event  types.Event
-	Input  types.Input
-	Client *slack.Client
+	User     string
+	Input    types.Input
+	Notifier notifiers.Notifier
 }
 
-func (command NowPlaying) Run() {
+func (c NowPlaying) Run() {
 	api := lastfm.New(secrets.GetSecretValue("lastfm_api_key"), secrets.GetSecretValue("lastfm_api_secret"))
 
 	usernames := []string{"infinitedevon"}
 	var output []string
 
 	for _, username := range usernames {
-		result, _ := api.User.GetRecentTracks(lastfm.P{
+		result, err := api.User.GetRecentTracks(lastfm.P{
 			"user":  username,
 			"limit": 1,
 		})
+
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		recentTrack := result.Tracks[0]
 
@@ -38,15 +42,10 @@ func (command NowPlaying) Run() {
 	var message string
 
 	if len(output) > 0 {
-		message = fmt.Sprintf("<@%s>: now playing\n%s", command.Event.User, strings.Join(output, "\n"))
+		message = fmt.Sprintf("<@%s>: now playing\n%s", c.User, strings.Join(output, "\n"))
 	} else {
-		message = fmt.Sprintf("<@%s>: all quiet", command.Event.User)
+		message = fmt.Sprintf("<@%s>: all quiet", c.User)
 	}
 
-	postParams := slack.PostMessageParameters{}
-	_, _, err := command.Client.PostMessage(command.Event.Channel, message, postParams)
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	c.Notifier.Log(message)
 }

@@ -2,24 +2,18 @@ package commands
 
 import (
 	"fmt"
+	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
-	"github.com/nlopes/slack"
-	"log"
 )
 
 type Echo struct {
-	Event  types.Event
-	Input  types.Input
-	Client *slack.Client
+	User     string
+	Input    types.Input
+	Notifier notifiers.Notifier
 }
 
-func (command Echo) Run() {
-	message := fmt.Sprintf("<@%s>: %s", command.Event.User, command.Input.Args)
+func (c Echo) Run() {
+	message := fmt.Sprintf("<@%s>: %s", c.User, c.Input.Args)
 
-	postParams := slack.PostMessageParameters{}
-	_, _, err := command.Client.PostMessage(command.Event.Channel, message, postParams)
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	c.Notifier.Log(message)
 }

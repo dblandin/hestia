@@ -2,19 +2,23 @@ package commands
 
 import (
 	"fmt"
+	"github.com/codeclimate/hestia/internal/notifiers"
+	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
 	"github.com/nlopes/slack"
 	"log"
 )
 
 type WhoAmI struct {
-	Event  types.Event
-	Input  types.Input
-	Client *slack.Client
+	User     string
+	Input    types.Input
+	Notifier notifiers.Notifier
 }
 
-func (command WhoAmI) Run() {
-	user, err := command.Client.GetUserInfo(command.Event.User)
+func (c WhoAmI) Run() {
+	client := slack.New(secrets.GetSecretValue("slack_bot_token"))
+
+	user, err := client.GetUserInfo(c.User)
 
 	if err != nil {
 		log.Fatal(err)
@@ -22,6 +26,5 @@ func (command WhoAmI) Run() {
 
 	message := fmt.Sprintf("<@%s>:\n id: %s\n name: %s\n email: %s", user.ID, user.ID, user.Profile.RealName, user.Profile.Email)
 
-	postParams := slack.PostMessageParameters{}
-	_, _, err = command.Client.PostMessage(command.Event.Channel, message, postParams)
+	c.Notifier.Log(message)
 }
