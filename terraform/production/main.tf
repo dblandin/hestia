@@ -9,12 +9,20 @@ terraform {
   }
 }
 
+variable "aws_assume_role_arn" {}
+variable "release_s3_bucket" {}
+variable "release_s3_key" {}
+
 locals {
   tags = "${map("Terraform", "true", "ProductLine", "Hestia", "Environment", "production")}"
 }
 
 provider "aws" {
   region = "us-east-1"
+
+  assume_role {
+    role_arn = "${var.aws_assume_role_arn}"
+  }
 }
 
 
@@ -85,27 +93,27 @@ resource "aws_iam_role_policy_attachment" "attachment" {
 }
 
 resource "aws_lambda_function" "handler" {
-  description      = "Hestia handler function - ${terraform.workspace}"
-  function_name    = "hestia-${terraform.workspace}-handler"
-  handler          = "handler"
-  publish          = true
-  role             = "${aws_iam_role.hestia.arn}"
-  runtime          = "go1.x"
-  filename         = "hestia.zip"
-  source_code_hash = "${base64sha256(file("hestia.zip"))}"
+  description   = "Hestia handler function - ${terraform.workspace}"
+  function_name = "hestia-${terraform.workspace}-handler"
+  handler       = "handler"
+  publish       = true
+  role          = "${aws_iam_role.hestia.arn}"
+  runtime       = "go1.x"
+  s3_bucket     = "${var.release_s3_bucket}"
+  s3_key        = "${var.release_s3_key}"
 
   tags = "${local.tags}"
 }
 
 resource "aws_lambda_function" "api" {
-  description      = "Hestia api function - ${terraform.workspace}"
-  function_name    = "hestia-${terraform.workspace}-api"
-  handler          = "api"
-  publish          = true
-  role             = "${aws_iam_role.hestia.arn}"
-  runtime          = "go1.x"
-  filename         = "hestia.zip"
-  source_code_hash = "${base64sha256(file("hestia.zip"))}"
+  description   = "Hestia api function - ${terraform.workspace}"
+  function_name = "hestia-${terraform.workspace}-api"
+  handler       = "api"
+  publish       = true
+  role          = "${aws_iam_role.hestia.arn}"
+  runtime       = "go1.x"
+  s3_bucket     = "${var.release_s3_bucket}"
+  s3_key        = "${var.release_s3_key}"
 
   tags = "${local.tags}"
 

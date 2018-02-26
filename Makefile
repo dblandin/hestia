@@ -22,4 +22,4 @@ release:
 	aws s3 cp \
 	  --acl private \
 	  dist/package.zip \
-	  "s3://${RELEASE_S3_BUCKET}/${RELEASE_S3_KEY}"
+	  "s3://${TF_VAR_release_s3_bucket}/${TF_VAR_release_s3_key}"

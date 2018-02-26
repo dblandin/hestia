@@ -4,11 +4,11 @@ set -euo pipefail
 
 printf -- "--- :buildkite: Setting image env\n"
 
-export RELEASE_S3_BUCKET
-export RELEASE_S3_KEY
+export TF_VAR_release_s3_bucket
+export TF_VAR_release_s3_key
 
-RELEASE_S3_BUCKET="com.codeclimate.hestia"
-RELEASE_S3_KEY="release/package_$BUILDKITE_BUILD_NUMBER.zip"
+TF_VAR_release_s3_bucket="com.codeclimate.hestia"
+TF_VAR_release_s3_key="release/package_$BUILDKITE_BUILD_NUMBER.zip"
 
-printf "RELEASE_S3_BUCKET=%s\n" "$RELEASE_S3_BUCKET"
-printf "RELEASE_S3_KEY=%s\n" "$RELEASE_S3_KEY"
+printf "TF_VAR_release_s3_bucket=%s\n" "$TF_VAR_release_s3_bucket"
+printf "TF_VAR_release_s3_key=%s\n" "$TF_VAR_release_s3_key"

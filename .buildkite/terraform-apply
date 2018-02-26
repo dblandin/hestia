@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+printf -- "--- :terraform: terraform init\n"
+
+terraform init
+
+printf -- "+++ :terraform: terraform apply\n"
+
+buildkite-agent artifact download plan.tf .
+
+terraform apply -auto-approve plan.tf

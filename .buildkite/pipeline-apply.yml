@@ -1,0 +1,8 @@
+steps:
+  - label: ":terraform: :hammer:"
+    branches: "master"
+    command:
+      - cd terraform/production
+      - ../../.buildkite/terraform-apply
+    concurrency: 1
+    concurrency_group: hestia/production/terraform

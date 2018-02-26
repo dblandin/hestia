@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -uo pipefail
+
+printf -- "--- :terraform: terraform init\n"
+
+terraform init
+
+printf -- "--- :terraform: terraform plan\n"
+
+
+terraform plan -detailed-exitcode -out plan.tf
+
+status="$?"
+
+if [ "$status" -eq 2 ]; then
+  buildkite-agent artifact upload plan.tf
+
+  buildkite-agent pipeline upload ../../.buildkite/pipeline-apply.yml
+elif [ "$status" -eq 0 ]; then
+  printf -- "--- :terraform: no changes detected\n"
+else
+  exit "$status"
+fi

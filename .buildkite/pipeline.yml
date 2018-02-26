@@ -1,15 +1,30 @@
 steps:
   - label: ":golang: test"
-    parallelism: 1
     command:
-      - ".buildkite/test"
+      - .buildkite/test
     agents:
-      queue: "build"
+      queue: build
 
   - wait
 
   - label: ":golang: build"
     command:
-      - ".buildkite/build"
+      - .buildkite/build
     agents:
-      queue: "build"
+      queue: build
+
+  - wait
+
+  - label: ":terraform: :mag_right:"
+    command:
+      - cd terraform/production
+      - ../../.buildkite/terraform-validate
+
+  - wait
+
+  - label: ":terraform: :thinking_face:"
+    command:
+      - cd terraform/production
+      - ../../.buildkite/terraform-plan
+    concurrency: 1
+    concurrency_group: hestia/production/terraform

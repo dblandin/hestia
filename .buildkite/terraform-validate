@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+printf -- "--- :terraform: terraform init\n"
+
+terraform init
+
+printf -- "+++ :terraform: terraform validate\n"
+
+terraform validate
