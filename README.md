@@ -28,9 +28,9 @@ are deployed via terraform in CI.
 
 Implemented commands:
 
-- whoami: responds with user slack information
-- echo: respond with supplied arguments
-- weather: respond with local weather or weather from provided zip code
-- nowplaying: respond with currently playing tracks from list of last.fm usernames
+- [whoami](internal/commands/whoami.go): responds with user slack information
+- [echo](internal/commands/echo.go): respond with supplied arguments
+- [weather](internal/commands/weather.go): respond with local weather or weather from provided zip code
+- [nowplaying](internal/commands/nowplaying.go): respond with currently playing tracks from list of last.fm usernames
 
 You can run commands locally by building and running the cli binary.
