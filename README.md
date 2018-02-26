@@ -10,3 +10,27 @@
 
 Also, a central presence within the Code Climate organization whose mission is
 to improve culture, one function at a time.
+
+## overview
+
+This project is structured as a golang project packaged as lambda functions.
+
+There are currently two lambda functions defined:
+
+- [api](cmd/api/api.go) (receives slack mentions)
+- [handler](cmd/handler/handler.go) (processes command requests)
+
+The handler function invokes implemented commands, found within the
+[internal/commands](internal/commands) package.
+
+Secrets are stored and retrieved via SSM Parameter Store. The lambda functions
+are deployed via terraform in CI.
+
+Implemented commands:
+
+- whoami: responds with user slack information
+- echo: respond with supplied arguments
+- weather: respond with local weather or weather from provided zip code
+- nowplaying: respond with currently playing tracks from list of last.fm usernames
+
+You can run commands locally by building and running the cli binary.
