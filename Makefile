@@ -1,12 +1,25 @@
-.PHONY: build test
+.PHONY: build dep test
 
-FILES := $(shell find ./ -name "*_test.go")
-test:
-	go test ${FILES}
+IMAGE_NAME := codeclimate/hestia
+
+image:
+	docker build -t $(IMAGE_NAME) .
 
 build:
-	dep ensure && \
-	go build -o dist/handler cmd/handler/handler.go && \
-	go build -o dist/cli cmd/cli/cli.go && \
-	go build -o dist/api cmd/api/api.go && \
+	docker run -it --rm  \
+	  --volume "$(CURDIR):/go/src/github.com/codeclimate/hestia" \
+	  $(IMAGE_NAME) scripts/build
+
+package:
 	zip -j dist/package.zip dist/*
+
+test:
+	docker run -it --rm  \
+	  --volume "$(CURDIR):/go/src/github.com/codeclimate/hestia" \
+	  $(IMAGE_NAME) scripts/test
+
+release:
+	aws s3 cp \
+	  --acl private \
+	  dist/package.zip \
+	  "s3://${RELEASE_S3_BUCKET}/${RELEASE_S3_KEY}"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -euo pipefail
+
+printf -- "--- :buildkite: Uploading pipeline\n"
+
+buildkite-agent pipeline upload

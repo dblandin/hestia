@@ -1,0 +1,15 @@
+steps:
+  - label: ":golang: test"
+    parallelism: 1
+    command:
+      - ".buildkite/test"
+    agents:
+      queue: "build"
+
+  - wait
+
+  - label: ":golang: build"
+    command:
+      - ".buildkite/build"
+    agents:
+      queue: "build"

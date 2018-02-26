@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+printf -- "--- :docker: Building image\n"
+
+make image
+
+printf -- "+++ :golang: Testing project\n"
+
+make test

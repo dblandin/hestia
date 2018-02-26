@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -euo pipefail
+
+printf -- "--- :docker: Building image\n"
+
+make image
+
+printf -- "+++ :golang: Building project\n"
+
+make build
+
+printf -- "--- :s3: Uploading lambda package to S3\n"
+
+make package release

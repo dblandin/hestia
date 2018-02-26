@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -euo pipefail
+
+TEST_ARGS="${TEST_ARGS-$(find ./ -name "*_test.go")}"
+go test "$TEST_ARGS"

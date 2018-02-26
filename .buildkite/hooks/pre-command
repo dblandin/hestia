@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -euo pipefail
+
+printf -- "--- :buildkite: Setting image env\n"
+
+export RELEASE_S3_BUCKET
+export RELEASE_S3_KEY
+
+RELEASE_S3_BUCKET="com.codeclimate.hestia"
+RELEASE_S3_KEY="release/package_$BUILDKITE_BUILD_NUMBER.zip"
+
+printf "RELEASE_S3_BUCKET=%s\n" "$RELEASE_S3_BUCKET"
+printf "RELEASE_S3_KEY=%s\n" "$RELEASE_S3_KEY"
