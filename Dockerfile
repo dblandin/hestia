@@ -11,4 +11,4 @@ RUN apk add --update curl git make && \
 
 COPY Gopkg.toml Gopkg.lock ./
 
-RUN dep ensure
+RUN dep ensure -vendor-only
