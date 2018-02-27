@@ -7,10 +7,6 @@
   version = "1.13.4"
 
 [[constraint]]
-  name = "github.com/bugsnag/bugsnag-go"
-  version = "1.3.0"
-
-[[constraint]]
   name = "github.com/nlopes/slack"
   version = "0.2.0"
 
