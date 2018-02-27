@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -euo pipefail
+
+docker run --rm \
+  --volume "$PWD:/go/src/github.com/codeclimate/hestia" \
+  codeclimate/hestia \
+  go run cmd/cli/cli.go "$@"
