@@ -24,7 +24,6 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	})
 
 	log.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
-	log.Printf("Received webhook: %s", request.Body)
 
 	service := awsLambda.New(session.New())
 
