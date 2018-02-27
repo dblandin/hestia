@@ -14,6 +14,7 @@ import awsLambda "github.com/aws/aws-sdk-go/service/lambda"
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
+	log.Printf("Received webhook: %s", request.Body)
 
 	service := awsLambda.New(session.New())
 
