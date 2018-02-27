@@ -56,7 +56,7 @@ module "function_api" {
   release_s3_bucket = "${var.release_s3_bucket}"
   release_s3_key    = "${var.release_s3_key}"
 
-  variables = "${map("COMMAND_LAMBDA_FUNCTION_NAME", "${module.function_handler.name}", "COMMAND_LAMBDA_VERSION", "${module.function_handler.version}")}"
+  variables = "${map("BUGSNAG_RELEASE_STAGE", "production", "COMMAND_LAMBDA_FUNCTION_NAME", "${module.function_handler.name}", "COMMAND_LAMBDA_VERSION", "${module.function_handler.version}")}"
 
   tags = "${local.tags}"
 }
@@ -69,7 +69,7 @@ module "function_handler" {
   release_s3_bucket = "${var.release_s3_bucket}"
   release_s3_key    = "${var.release_s3_key}"
 
-  variables = "${map("NOOP", "noop")}"
+  variables = "${map("BUGSNAG_RELEASE_STAGE", "production")}"
 
   tags = "${local.tags}"
 }

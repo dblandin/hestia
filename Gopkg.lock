@@ -49,6 +49,21 @@
   version = "v1.13.4"
 
 [[projects]]
+  name = "github.com/bugsnag/bugsnag-go"
+  packages = [
+    ".",
+    "errors"
+  ]
+  revision = "036f1af2a63f8133e596d1c127c86100b4642ba1"
+  version = "v1.3.0"
+
+[[projects]]
+  name = "github.com/bugsnag/panicwrap"
+  packages = ["."]
+  revision = "4009b2b7c78d820cc4a2e42f035bb557ce4ae45b"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/go-ini/ini"
   packages = ["."]
   revision = "32e4c1e6bc4e7d0d8451aa6b75200d19e37a536a"
@@ -66,6 +81,12 @@
   revision = "0b12d6b5"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/kardianos/osext"
+  packages = ["."]
+  revision = "ae77be60afb1dcacde03767a8c37337fad28ac14"
+
+[[projects]]
   name = "github.com/nlopes/slack"
   packages = ["."]
   revision = "8ab4d0b364ef1e9af5d102531da20d5ec902b6c4"
@@ -80,6 +101,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "59ce3252846681a42c028cf4ec06c1745e3b3553ba3cebb9714447050d135817"
+  inputs-digest = "a4eb9d384197c2befd8ee79b9241a1dec3e7f09a6735cb3b3157201ee199957b"
   solver-name = "gps-cdcl"
   solver-version = 1
