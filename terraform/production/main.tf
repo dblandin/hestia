@@ -34,6 +34,9 @@ module "policies" {
 module "logging" {
   source = "../modules/logging"
 
+  region                 = "${data.aws_region.current.name}"
+  syslog_udp_destination = "${var.syslog_udp_destination}"
+
   tags = "${local.tags}"
 }
 
