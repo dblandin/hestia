@@ -21,6 +21,8 @@ func Build(user string, input types.Input, notifier notifiers.Notifier) Command 
 		command = NowPlaying{user, input, notifier}
 	case "weather":
 		command = Weather{user, input, notifier}
+	case "danceparty":
+		command = DanceParty{user, input, notifier}
 	default:
 		command = Fallback{user, input, notifier}
 	}
