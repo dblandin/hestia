@@ -6,6 +6,8 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/bugsnag/bugsnag-go"
+	"github.com/codeclimate/hestia/internal/secrets"
 	"log"
 	"os"
 )
@@ -13,6 +15,14 @@ import (
 import awsLambda "github.com/aws/aws-sdk-go/service/lambda"
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	api_key := secrets.GetSecretValue("bugsnag_api_key")
+
+	bugsnag.Configure(bugsnag.Configuration{
+		APIKey:          api_key,
+		ReleaseStage:    os.Getenv("BUGSNAG_RELEASE_STAGE"),
+		ProjectPackages: []string{"github.com/codeclimate/hestia"},
+	})
+
 	log.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
 
 	service := awsLambda.New(session.New())
