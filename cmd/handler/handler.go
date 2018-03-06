@@ -20,10 +20,6 @@ type Response struct {
 }
 
 func main() {
-	lambda.Start(handleRequest)
-}
-
-func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
 	api_key := config.Fetch("bugsnag_api_key")
 
 	bugsnag.Configure(bugsnag.Configuration{
@@ -32,6 +28,10 @@ func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Resp
 		ProjectPackages: []string{"github.com/codeclimate/hestia"},
 	})
 
+	lambda.Start(handleRequest)
+}
+
+func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
 	event := eventCallback.Event
 
 	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)

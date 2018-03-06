@@ -15,14 +15,6 @@ import (
 import awsLambda "github.com/aws/aws-sdk-go/service/lambda"
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	api_key := config.Fetch("bugsnag_api_key")
-
-	bugsnag.Configure(bugsnag.Configuration{
-		APIKey:          api_key,
-		ReleaseStage:    os.Getenv("BUGSNAG_RELEASE_STAGE"),
-		ProjectPackages: []string{"github.com/codeclimate/hestia"},
-	})
-
 	log.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
 
 	service := awsLambda.New(session.New())
@@ -44,5 +36,13 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 }
 
 func main() {
+	api_key := config.Fetch("bugsnag_api_key")
+
+	bugsnag.Configure(bugsnag.Configuration{
+		APIKey:          api_key,
+		ReleaseStage:    os.Getenv("BUGSNAG_RELEASE_STAGE"),
+		ProjectPackages: []string{"github.com/codeclimate/hestia"},
+	})
+
 	lambda.Start(handleRequest)
 }
