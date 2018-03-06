@@ -2,11 +2,10 @@ package commands
 
 import (
 	"fmt"
-	"math/rand"
-	"strings"
-
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
+	"math/rand"
+	"strings"
 )
 
 type DanceParty struct {
