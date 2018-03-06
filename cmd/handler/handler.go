@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/bugsnag/bugsnag-go"
 	"github.com/codeclimate/hestia/internal/commands"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
@@ -21,6 +22,14 @@ func main() {
 }
 
 func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
+	api_key := secrets.GetSecretValue("bugsnag_api_key")
+
+	bugsnag.Configure(bugsnag.Configuration{
+		APIKey:          api_key,
+		ReleaseStage:    os.Getenv("BUGSNAG_RELEASE_STAGE"),
+		ProjectPackages: []string{"github.com/codeclimate/hestia"},
+	})
+
 	event := eventCallback.Event
 
 	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)
