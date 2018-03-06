@@ -3,6 +3,9 @@
 set -euo pipefail
 
 docker run --rm \
+  --env AWS_REGION \
+  --env AWS_ACCESS_KEY_ID \
+  --env AWS_SECRET_ACCESS_KEY \
   --volume "$PWD:/go/src/github.com/codeclimate/hestia" \
   codeclimate/hestia \
   go run cmd/cli/cli.go "$@"

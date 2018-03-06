@@ -21,6 +21,8 @@ func Build(user string, input types.Input, notifier notifiers.Notifier) Command 
 		command = Echo{user, input, notifier}
 	case "nowplaying":
 		command = NowPlaying{user, input, notifier}
+	case "music":
+		command = Music{user, input, notifier}
 	case "weather":
 		command = Weather{user, input, notifier}
 	case "whoami":
