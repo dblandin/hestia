@@ -15,6 +15,8 @@ import (
 import awsLambda "github.com/aws/aws-sdk-go/service/lambda"
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	defer bugsnag.AutoNotify()
+
 	log.Printf("Processing request data for request %s.\n", request.RequestContext.RequestID)
 
 	service := awsLambda.New(session.New())
@@ -42,6 +44,7 @@ func main() {
 		APIKey:          api_key,
 		ReleaseStage:    os.Getenv("BUGSNAG_RELEASE_STAGE"),
 		ProjectPackages: []string{"github.com/codeclimate/hestia"},
+		Synchronous:     true,
 	})
 
 	lambda.Start(handleRequest)

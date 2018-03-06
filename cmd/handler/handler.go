@@ -26,12 +26,15 @@ func main() {
 		APIKey:          api_key,
 		ReleaseStage:    os.Getenv("BUGSNAG_RELEASE_STAGE"),
 		ProjectPackages: []string{"github.com/codeclimate/hestia"},
+		Synchronous:     true,
 	})
 
 	lambda.Start(handleRequest)
 }
 
 func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
+	defer bugsnag.AutoNotify()
+
 	event := eventCallback.Event
 
 	re := regexp.MustCompile(`<@\w+>\s+(?P<command>\w+)\s?(?P<args>.*)?`)
