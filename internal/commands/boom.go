@@ -12,5 +12,6 @@ type Boom struct {
 }
 
 func (c Boom) Run() {
+	c.Notifier.Log(":boom:")
 	panic("boom: testing error handling")
 }
