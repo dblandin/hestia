@@ -3,8 +3,8 @@ package commands
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/codeclimate/hestia/internal/config"
 	"github.com/codeclimate/hestia/internal/notifiers"
-	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
 	"io/ioutil"
 	"log"
@@ -37,7 +37,7 @@ func getWeather(zip string) (weather OpenWeatherMapResponse) {
 	weather_url := fmt.Sprintf(
 		"http://api.openweathermap.org/data/2.5/weather?zip=%s,us&appid=%s",
 		zip,
-		secrets.GetSecretValue("open_weather_api_key"),
+		config.Fetch("open_weather_api_key"),
 	)
 
 	resp, err := http.Get(weather_url)

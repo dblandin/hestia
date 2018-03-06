@@ -2,8 +2,8 @@ package commands
 
 import (
 	"fmt"
+	"github.com/codeclimate/hestia/internal/config"
 	"github.com/codeclimate/hestia/internal/notifiers"
-	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
 	"github.com/shkh/lastfm-go/lastfm"
 	"log"
@@ -17,7 +17,7 @@ type NowPlaying struct {
 }
 
 func (c NowPlaying) Run() {
-	api := lastfm.New(secrets.GetSecretValue("lastfm_api_key"), secrets.GetSecretValue("lastfm_api_secret"))
+	api := lastfm.New(config.Fetch("lastfm_api_key"), config.Fetch("lastfm_api_secret"))
 
 	usernames := []string{"infinitedevon"}
 	var output []string

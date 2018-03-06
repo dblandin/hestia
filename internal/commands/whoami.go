@@ -2,8 +2,8 @@ package commands
 
 import (
 	"fmt"
+	"github.com/codeclimate/hestia/internal/config"
 	"github.com/codeclimate/hestia/internal/notifiers"
-	"github.com/codeclimate/hestia/internal/secrets"
 	"github.com/codeclimate/hestia/internal/types"
 	"github.com/nlopes/slack"
 	"log"
@@ -16,7 +16,7 @@ type WhoAmI struct {
 }
 
 func (c WhoAmI) Run() {
-	client := slack.New(secrets.GetSecretValue("slack_bot_token"))
+	client := slack.New(config.Fetch("slack_bot_token"))
 
 	user, err := client.GetUserInfo(c.User)
 

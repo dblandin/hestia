@@ -5,10 +5,12 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/bugsnag/bugsnag-go"
 	"github.com/codeclimate/hestia/internal/commands"
+	"github.com/codeclimate/hestia/internal/config"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
 	"github.com/codeclimate/hestia/internal/utils"
 	"log"
+	"os"
 	"regexp"
 )
 
@@ -22,7 +24,7 @@ func main() {
 }
 
 func handleRequest(ctx context.Context, eventCallback types.EventCallback) (Response, error) {
-	api_key := secrets.GetSecretValue("bugsnag_api_key")
+	api_key := config.Fetch("bugsnag_api_key")
 
 	bugsnag.Configure(bugsnag.Configuration{
 		APIKey:          api_key,

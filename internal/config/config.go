@@ -1,4 +1,4 @@
-package secrets
+package config
 
 import (
 	"fmt"
@@ -8,8 +8,7 @@ import (
 	"log"
 )
 
-func GetSecretValue(key string) string {
-
+func Fetch(key string) string {
 	service := ssm.New(session.New())
 
 	input := ssm.GetParameterInput{

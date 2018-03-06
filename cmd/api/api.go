@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/bugsnag/bugsnag-go"
-	"github.com/codeclimate/hestia/internal/secrets"
+	"github.com/codeclimate/hestia/internal/config"
 	"log"
 	"os"
 )
@@ -15,7 +15,7 @@ import (
 import awsLambda "github.com/aws/aws-sdk-go/service/lambda"
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	api_key := secrets.GetSecretValue("bugsnag_api_key")
+	api_key := config.Fetch("bugsnag_api_key")
 
 	bugsnag.Configure(bugsnag.Configuration{
 		APIKey:          api_key,
