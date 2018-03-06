@@ -13,6 +13,8 @@ func Build(user string, input types.Input, notifier notifiers.Notifier) Command 
 	var command Command
 
 	switch input.Command {
+	case "boom":
+		command = Boom{user, input, notifier}
 	case "danceparty":
 		command = DanceParty{user, input, notifier}
 	case "echo":
