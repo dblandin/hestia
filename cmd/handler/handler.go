@@ -10,13 +10,19 @@ import (
 	"github.com/codeclimate/hestia/internal/types"
 	"github.com/codeclimate/hestia/internal/utils"
 	"log"
+	"math/rand"
 	"os"
 	"regexp"
+	"time"
 )
 
 type Response struct {
 	Message string `json:"message"`
 	Ok      bool   `json:"ok"`
+}
+
+func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
 }
 
 func main() {

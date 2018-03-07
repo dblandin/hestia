@@ -5,11 +5,17 @@ import (
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/utils"
 	"log"
+	"math/rand"
 	"os"
 	"os/user"
 	"regexp"
 	"strings"
+	"time"
 )
+
+func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
+}
 
 func main() {
 	re := regexp.MustCompile(`(?P<command>\w+)\s?(?P<args>.*)?`)
