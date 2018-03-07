@@ -23,9 +23,7 @@ type Response struct {
 
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
-}
 
-func main() {
 	api_key := config.Fetch("bugsnag_api_key")
 
 	bugsnag.Configure(bugsnag.Configuration{
@@ -34,7 +32,9 @@ func main() {
 		ProjectPackages: []string{"github.com/codeclimate/hestia"},
 		Synchronous:     true,
 	})
+}
 
+func main() {
 	lambda.Start(handleRequest)
 }
 
