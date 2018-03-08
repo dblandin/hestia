@@ -6,6 +6,7 @@ import (
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
 	"strings"
+	"time"
 )
 
 type Music struct {
@@ -48,6 +49,9 @@ func (c Music) invokeCommand() string {
 	if resp.Error != "" {
 		return fmt.Sprintf("<@%s>: %s", c.User, resp.Error)
 	} else {
+		// wait a second for system to react
+		time.Sleep(1 * time.Second)
+
 		return c.getState()
 	}
 }
