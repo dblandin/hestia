@@ -37,7 +37,7 @@ func (c Music) info() string {
 	var lines []string
 
 	lines = append(lines, fmt.Sprintf("web ui: %s", config.Fetch("music_domain")))
-	lines = append(lines, "  username: %s", config.Fetch("music_username"))
+	lines = append(lines, fmt.Sprintf("  username: %s", config.Fetch("music_username")))
 	lines = append(lines, fmt.Sprintf("iphone app: <%s|app store>", "https://itunes.apple.com/us/app/volumio/id1268256519"))
 	lines = append(lines, fmt.Sprintf("android app: <%s|play store>", "https://play.google.com/store/apps/details?id=volumio.browser.Volumio"))
 
