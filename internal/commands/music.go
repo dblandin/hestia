@@ -35,11 +35,12 @@ func (c Music) Run() {
 
 func (c Music) info() string {
 	var lines []string
+	app_store_url := "https://itunes.apple.com/us/app/volumio/id1268256519"
+	play_store_url := "https://play.google.com/store/apps/details?id=volumio.browser.Volumio"
 
 	lines = append(lines, fmt.Sprintf("web ui: %s", config.Fetch("music_domain")))
 	lines = append(lines, fmt.Sprintf("  username: %s", config.Fetch("music_username")))
-	lines = append(lines, fmt.Sprintf("iphone app: <%s|app store>", "https://itunes.apple.com/us/app/volumio/id1268256519"))
-	lines = append(lines, fmt.Sprintf("android app: <%s|play store>", "https://play.google.com/store/apps/details?id=volumio.browser.Volumio"))
+	lines = append(lines, fmt.Sprintf("apps: <%s|ios>, <%s|android>", app_store_url, play_store_url))
 
 	return fmt.Sprintf("<@%s>:\n%s", c.User, strings.Join(lines, "\n"))
 }
