@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"github.com/codeclimate/hestia/internal/config"
 	"github.com/codeclimate/hestia/internal/music"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
@@ -19,6 +20,8 @@ func (c Music) Run() {
 	var message string
 
 	switch c.Input.Args {
+	case "info":
+		message = c.info()
 	case "playlists":
 		message = c.listPlaylists()
 	case "state":
@@ -28,6 +31,17 @@ func (c Music) Run() {
 	}
 
 	c.Notifier.Log(message)
+}
+
+func (c Music) info() string {
+	var lines []string
+
+	lines = append(lines, fmt.Sprintf("web ui: %s", config.Fetch("music_domain")))
+	lines = append(lines, "  username: %s", config.Fetch("music_username"))
+	lines = append(lines, fmt.Sprintf("iphone app: <%s|app store>", "https://itunes.apple.com/us/app/volumio/id1268256519"))
+	lines = append(lines, fmt.Sprintf("android app: <%s|play store>", "https://play.google.com/store/apps/details?id=volumio.browser.Volumio"))
+
+	return fmt.Sprintf("<@%s>:\n%s", c.User, strings.Join(lines, "\n"))
 }
 
 func (c Music) listPlaylists() string {
