@@ -80,5 +80,18 @@ func (c Music) HelpDescription() string {
 }
 
 func (c Music) HelpExamples() []string {
-	return []string{"music state", "music play", "music pause"}
+	return []string{
+		"music state",
+		"music info",
+		"music play",
+		"music stop",
+		"music pause",
+		"music next",
+		"music prev",
+		"music volume 80",
+		"music volume +|-|mute|unmute",
+		"music playplaylist <name>",
+		"music clearQueue",
+		"music playlists",
+	}
 }
