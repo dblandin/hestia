@@ -70,3 +70,15 @@ func (c Music) invokeCommand() string {
 		return c.getState()
 	}
 }
+
+func (c Music) HelpText() string {
+	return "music <subcommand> [args]"
+}
+
+func (c Music) HelpDescription() string {
+	return "Controls the office music server"
+}
+
+func (c Music) HelpExamples() []string {
+	return []string{"music state", "music play", "music pause"}
+}

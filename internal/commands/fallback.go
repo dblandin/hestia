@@ -13,7 +13,19 @@ type Fallback struct {
 }
 
 func (c Fallback) Run() {
-	message := fmt.Sprintf("<@%s> command `%s` not found", c.User, c.Input.Command)
+	message := fmt.Sprintf("<@%s> Command `%s` not found", c.User, c.Input.Command)
 
 	c.Notifier.Log(message)
+}
+
+func (c Fallback) HelpDescription() string {
+	return ""
+}
+
+func (c Fallback) HelpText() string {
+	return fmt.Sprintf("Command `%s` not found", c.Input.Command)
+}
+
+func (c Fallback) HelpExamples() []string {
+	return []string{}
 }

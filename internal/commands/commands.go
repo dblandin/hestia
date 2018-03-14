@@ -7,6 +7,9 @@ import (
 
 type Command interface {
 	Run()
+	HelpText() string
+	HelpDescription() string
+	HelpExamples() []string
 }
 
 func Build(user string, input types.Input, notifier notifiers.Notifier) Command {
@@ -19,6 +22,8 @@ func Build(user string, input types.Input, notifier notifiers.Notifier) Command 
 		command = DanceParty{user, input, notifier}
 	case "echo":
 		command = Echo{user, input, notifier}
+	case "help":
+		command = Help{user, input, notifier}
 	case "nowplaying":
 		command = NowPlaying{user, input, notifier}
 	case "music":
@@ -32,4 +37,16 @@ func Build(user string, input types.Input, notifier notifiers.Notifier) Command 
 	}
 
 	return command
+}
+
+func allCommands() []Command {
+	return []Command{
+		new(Boom),
+		new(DanceParty),
+		new(Echo),
+		new(Help),
+		new(NowPlaying),
+		new(Weather),
+		new(WhoAmI),
+	}
 }

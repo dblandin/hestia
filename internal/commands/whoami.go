@@ -28,3 +28,15 @@ func (c WhoAmI) Run() {
 
 	c.Notifier.Log(message)
 }
+
+func (c WhoAmI) HelpText() string {
+	return "whoami"
+}
+
+func (c WhoAmI) HelpDescription() string {
+	return "Returns information about your slack user"
+}
+
+func (c WhoAmI) HelpExamples() []string {
+	return []string{"whoami"}
+}

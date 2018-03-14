@@ -76,3 +76,15 @@ func (c Weather) Run() {
 
 	c.Notifier.Log(message)
 }
+
+func (c Weather) HelpText() string {
+	return "weather [zipcode=10011]"
+}
+
+func (c Weather) HelpDescription() string {
+	return "Fetches the current weather forecast"
+}
+
+func (c Weather) HelpExamples() []string {
+	return []string{"weather", "weather 10012"}
+}

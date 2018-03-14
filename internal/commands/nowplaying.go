@@ -49,3 +49,15 @@ func (c NowPlaying) Run() {
 
 	c.Notifier.Log(message)
 }
+
+func (c NowPlaying) HelpText() string {
+	return "nowplaying"
+}
+
+func (c NowPlaying) HelpDescription() string {
+	return "Fetches now playing information from last.fm"
+}
+
+func (c NowPlaying) HelpExamples() []string {
+	return []string{"nowplaying"}
+}

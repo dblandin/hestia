@@ -31,3 +31,15 @@ func (c DanceParty) Run() {
 
 	c.Notifier.Log(message)
 }
+
+func (c DanceParty) HelpText() string {
+	return "danceparty"
+}
+
+func (c DanceParty) HelpDescription() string {
+	return "Prints a random selection of dancing emojis!"
+}
+
+func (c DanceParty) HelpExamples() []string {
+	return []string{"danceparty"}
+}
