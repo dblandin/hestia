@@ -11,7 +11,7 @@
 Also, a central presence within the Code Climate organization whose mission is
 to improve culture, one function at a time.
 
-## overview
+## Overview
 
 This project is structured as a golang project packaged as lambda functions.
 
@@ -23,14 +23,25 @@ There are currently two lambda functions defined:
 The handler function invokes implemented commands, found within the
 [internal/commands](internal/commands) package.
 
-Secrets are stored and retrieved via SSM Parameter Store. The lambda functions
-are deployed via terraform in CI.
+Configuration variables are stored and retrieved via SSM Parameter Store. The
+lambda functions are deployed via terraform in CI.
 
-Implemented commands:
+## Commands
 
-- [whoami](internal/commands/whoami.go): responds with user slack information
-- [echo](internal/commands/echo.go): respond with supplied arguments
-- [weather](internal/commands/weather.go): respond with local weather or weather from provided zip code
-- [nowplaying](internal/commands/nowplaying.go): respond with currently playing tracks from list of last.fm usernames
+You can find all implemented commands [here][commands].
 
-You can run commands locally by building and running the cli binary.
+[commands]: https://github.com/codeclimate/hestia/tree/master/internal/commands
+
+## Running commands locally
+
+You can run commands locally by running:
+
+```
+$ bin/run <command> [args]
+```
+
+For example:
+
+```
+$ bin/run help
+```
