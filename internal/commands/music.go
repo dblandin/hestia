@@ -54,7 +54,7 @@ func (c Music) listPlaylists() string {
 func (c Music) getState() string {
 	state := music.GetState()
 
-	return fmt.Sprintf("<@%s>: [%s / %d] %s by %s on %s", c.User, state.Status, state.Volume, state.Title, state.Artist, state.Album)
+	return fmt.Sprintf("[%s / %d] %s by %s on %s", state.Status, state.Volume, state.Title, state.Artist, state.Album)
 }
 
 func (c Music) invokeCommand() string {
@@ -62,7 +62,7 @@ func (c Music) invokeCommand() string {
 	resp := music.InvokeCommand(parts[0], strings.Join(parts[1:], " "))
 
 	if resp.Error != "" {
-		return fmt.Sprintf("<@%s>: %s", c.User, resp.Error)
+		return resp.Error
 	} else {
 		// wait a second for system to react
 		time.Sleep(1 * time.Second)

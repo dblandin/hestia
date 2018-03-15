@@ -24,7 +24,7 @@ func (c WhoAmI) Run() {
 		log.Fatal(err)
 	}
 
-	message := fmt.Sprintf("<@%s>:\n id: %s\n name: %s\n email: %s", user.ID, user.ID, user.Profile.RealName, user.Profile.Email)
+	message := fmt.Sprintf("\nid: %s\n name: %s\n email: %s", user.ID, user.ID, user.Profile.RealName, user.Profile.Email)
 
 	c.Notifier.Log(message)
 }

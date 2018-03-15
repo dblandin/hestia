@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
 	"math/rand"
@@ -27,7 +26,7 @@ func (c DanceParty) Run() {
 		emojis[i], emojis[j] = emojis[j], emojis[i]
 	})
 
-	message := fmt.Sprintf("<@%s>: %s", c.User, strings.Join(emojis, " "))
+	message := strings.Join(emojis, " ")
 
 	c.Notifier.Log(message)
 }

@@ -22,7 +22,7 @@ func TestRun(t *testing.T) {
 	command.Run()
 
 	messages := notifier.Messages
-	expected := "<@test>: hello"
+	expected := "hello"
 
 	if messages[0] != expected {
 		t.Fatalf("Expected `%s`, but received `%s`", expected, messages[0])

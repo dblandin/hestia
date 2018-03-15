@@ -42,9 +42,9 @@ func (c NowPlaying) Run() {
 	var message string
 
 	if len(output) > 0 {
-		message = fmt.Sprintf("<@%s>: now playing\n%s", c.User, strings.Join(output, "\n"))
+		message = strings.Join(output, "\n")
 	} else {
-		message = fmt.Sprintf("<@%s>: all quiet", c.User)
+		message = "all quiet"
 	}
 
 	c.Notifier.Log(message)

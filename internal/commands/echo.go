@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"github.com/codeclimate/hestia/internal/notifiers"
 	"github.com/codeclimate/hestia/internal/types"
 )
@@ -13,7 +12,7 @@ type Echo struct {
 }
 
 func (c Echo) Run() {
-	message := fmt.Sprintf("<@%s>: %s", c.User, c.Input.Args)
+	message := c.Input.Args
 
 	c.Notifier.Log(message)
 }
