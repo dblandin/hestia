@@ -4,7 +4,7 @@ WORKDIR /go/src/github.com/codeclimate/hestia
 
 ARG DEP_VERSION=v0.4.1
 RUN apt-get update && \
-    apt-get install curl git make && \
+    apt-get install -y curl git make && \
     curl -fsSL -o /usr/local/bin/dep \
     https://github.com/golang/dep/releases/download/$DEP_VERSION/dep-linux-amd64 && \
     chmod +x /usr/local/bin/dep && \
