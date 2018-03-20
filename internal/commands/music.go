@@ -42,13 +42,13 @@ func (c Music) info() string {
 	lines = append(lines, fmt.Sprintf("  username: %s", config.Fetch("music_username")))
 	lines = append(lines, fmt.Sprintf("apps: <%s|ios>, <%s|android>", app_store_url, play_store_url))
 
-	return fmt.Sprintf("<@%s>:\n%s", c.User, strings.Join(lines, "\n"))
+	return strings.Join(lines, "\n")
 }
 
 func (c Music) listPlaylists() string {
 	playlists := music.ListPlaylists()
 
-	return fmt.Sprintf("<@%s>:\n%s", c.User, strings.Join(playlists, "\n"))
+	return strings.Join(playlists, "\n")
 }
 
 func (c Music) getState() string {
