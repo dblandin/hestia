@@ -13,14 +13,18 @@ type DanceParty struct {
 	Notifier notifiers.Notifier
 }
 
-func (c DanceParty) Run() {
-	emojis := []string{
+func (c DanceParty) Emojis() []string {
+	return []string{
 		":creepy_mario_dance:",
 		":gopher_dance:",
 		":mario_luigi_dance:",
 		":pusheen_dance:",
 		":dancing_corgi:",
 	}
+}
+
+func (c DanceParty) Run() {
+	emojis := c.Emojis()
 
 	rand.Shuffle(len(emojis), func(i, j int) {
 		emojis[i], emojis[j] = emojis[j], emojis[i]
