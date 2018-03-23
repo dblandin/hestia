@@ -50,6 +50,7 @@ func allCommands() []Command {
 		new(DanceParty),
 		new(Echo),
 		new(Help),
+		new(Music),
 		new(NowPlaying),
 		new(Weather),
 		new(WhoAmI),
