@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+install_reporter() {
+  curl --location --silent \
+    https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  chmod +x ./cc-test-reporter
+}
+
 printf -- "--- :docker: Building image\n"
 
 make image
@@ -9,3 +15,11 @@ make image
 printf -- "+++ :golang: Testing project\n"
 
 make test
+
+printf -- "--- :codeclimate: Installing cc-test-reporter\n"
+
+install_reporter
+
+printf "+++ :codeclimate: Reporting test coverage\n"
+
+./cc-test-reporter after-build --prefix github.com/codeclimate/hestia

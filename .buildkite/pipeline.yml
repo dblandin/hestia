@@ -4,6 +4,8 @@ steps:
       - .buildkite/test
     agents:
       queue: build
+    env:
+      CC_TEST_REPORTER_ID: 8b5dd59f61c2b73387dc7a977a375c02388bf69b1974582dc99f8f6b2273e807
 
   - wait
 
