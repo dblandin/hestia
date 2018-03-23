@@ -2,5 +2,14 @@
 
 set -euo pipefail
 
-TEST_ARGS="${TEST_ARGS-$(find ./ -name "*_test.go")}"
-go test "$TEST_ARGS"
+go test \
+  -coverprofile c.out \
+  github.com/codeclimate/hestia/internal/commands \
+  github.com/codeclimate/hestia/internal/config \
+  github.com/codeclimate/hestia/internal/music \
+  github.com/codeclimate/hestia/internal/notifiers \
+  github.com/codeclimate/hestia/internal/types \
+  github.com/codeclimate/hestia/internal/utils \
+  github.com/codeclimate/hestia/cmd/api \
+  github.com/codeclimate/hestia/cmd/handler \
+  github.com/codeclimate/hestia/cmd/cli
