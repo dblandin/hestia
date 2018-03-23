@@ -2,18 +2,23 @@ package commands
 
 import (
 	"github.com/codeclimate/hestia/internal/notifiers"
-	"github.com/codeclimate/hestia/internal/types"
 	"testing"
 )
 
-func TestEcho(t *testing.T) {
+func TestBoom(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("Expected Boom.Run() to panic")
+		}
+	}()
+
 	notifier := notifiers.Test{}
 
-	command := Echo{User: "test", Input: types.Input{Args: "hello"}, Notifier: &notifier}
+	command := Boom{Notifier: &notifier}
 	command.Run()
 
 	messages := notifier.Messages
-	expected := "hello"
+	expected := ":boom: testing error handling"
 
 	if messages[0] != expected {
 		t.Fatalf("Expected `%s`, but received `%s`", expected, messages[0])
