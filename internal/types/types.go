@@ -11,7 +11,7 @@ type Event struct {
 	Text           string `json:"text"`
 	Timestamp      string `json:"ts"`
 	Channel        string `json:"channel"`
-	EventTimestamp int    `json:"event_ts"`
+	EventTimestamp string `json:"event_ts"`
 }
 
 type EventCallback struct {
